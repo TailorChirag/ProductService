@@ -8,12 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpMessageConverterExtractor;
-import org.springframework.web.client.RequestCallback;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+
 import java.util.List;
 
 @Service
@@ -41,7 +39,7 @@ public class FakeStoreProductService implements ProductService{
 //        if(category != null){
 //            category.setCategoryName(fakeStoreProduct.getCategoryName());
 //        }
-        product.getCategory().setCategoryName(fakeStoreProduct.getCategoryName());
+        product.getCategory().setName(fakeStoreProduct.getCategoryName());
         return product;
     }
 
@@ -70,7 +68,7 @@ public class FakeStoreProductService implements ProductService{
         fakeStoreProductDto.setId(product.getId());
         fakeStoreProductDto.setDescription(product.getDescription());
         fakeStoreProductDto.setPrice(product.getPrice());
-        fakeStoreProductDto.setCategoryName(product.getCategory().getCategoryName());
+        fakeStoreProductDto.setCategoryName(product.getCategory().getName());
         fakeStoreProductDto.setImage(product.getImageUrl());
         return fakeStoreProductDto;
     }
