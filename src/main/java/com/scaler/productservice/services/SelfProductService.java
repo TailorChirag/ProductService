@@ -36,8 +36,14 @@ public class SelfProductService implements ProductService{
     }
 
     @Override
-    public List<Product> getAllProduct() {
-        return null;
+    public List<Product> getAllProduct() throws ProductNotFoundException {
+
+        if (productRepository.findAll().isEmpty()){
+            throw new ProductNotFoundException(" kuch bhi nahi mila re baba ");
+        }
+
+        return productRepository.findAll();
+
     }
 
     @Override
@@ -90,8 +96,8 @@ public class SelfProductService implements ProductService{
     }
 
     @Override
-    public boolean deleteProduct(Long id) {
-        return false;
+    public void deleteProduct(Long id) {
+        productRepository.deleteById(id);
     }
 
 }

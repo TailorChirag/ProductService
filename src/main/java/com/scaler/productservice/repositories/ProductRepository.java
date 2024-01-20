@@ -10,6 +10,8 @@ import java.util.Optional;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
+    boolean existsById(Long id);
+
     List<Product> findByTitleContaining(String word);
 
     long deleteByTitle(String title);
@@ -17,6 +19,10 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     Optional<Product> findById(Long id);
 
     Product save(Product product);
+
+    List<Product> findAll();
+
+    void deleteById(Long id);
 
     ;
 }
