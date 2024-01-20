@@ -15,7 +15,7 @@ public interface ProductService {
 
     Product putProduct(Long id, Product product);
 
-    Product patchProduct(Long id, Product product);
+    Product updateProduct(Long id, Product product) throws ProductNotFoundException;
 
-    void deleteProduct(Long id);
+    boolean deleteProduct(Long id);
 }

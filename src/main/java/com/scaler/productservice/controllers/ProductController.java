@@ -4,6 +4,7 @@ import com.scaler.productservice.exception.ProductNotFoundException;
 import com.scaler.productservice.models.Product;
 import com.scaler.productservice.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -19,7 +20,7 @@ public class ProductController {
     private ProductService productService;
 
     @Autowired
-    public ProductController(ProductService productService) {
+    public ProductController(@Qualifier("selfProductService") ProductService productService) {
         this.productService = productService;
     }
 
@@ -38,13 +39,13 @@ public class ProductController {
     }
 
     @PostMapping()
-    public Product addNewProduct(@Validated @RequestBody Product product) {
+    public Product addNewProduct( @RequestBody Product product) {
         return productService.addNewProduct(product);
     }
 
     @PatchMapping("/{id}")
-    public Product updateProduct(@PathVariable("id") Long id, @RequestBody Product product) {
-        return productService.patchProduct(id, product);
+    public Product updateProduct(@PathVariable("id") Long id, @RequestBody Product product) throws ProductNotFoundException {
+        return productService.updateProduct(id, product);
     }
 
     @PutMapping("/{id}")

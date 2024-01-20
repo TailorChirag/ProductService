@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 import java.util.List;
 
-@Service
+@Service("fakeStoreProductService")
 public class FakeStoreProductService implements ProductService{
 
     private RestTemplate restTemplate;
@@ -46,7 +46,7 @@ public class FakeStoreProductService implements ProductService{
     @Override
     public Product getSingleProduct(Long id) throws ProductNotFoundException {
 
-        int a = 1 / 0;
+//        int a = 1 / 0;
 
         FakeStoreProductDto productDto = restTemplate.getForObject(
                 "https://fakestoreapi.com/products/" + id,
@@ -107,7 +107,7 @@ public class FakeStoreProductService implements ProductService{
     }
 
     @Override
-    public Product patchProduct(Long id, Product product) {
+    public Product updateProduct(Long id, Product product) {
 
         FakeStoreProductDto productDto = restTemplate.patchForObject(
                 "https://fakestoreapi.com/products/" + id,
@@ -119,8 +119,9 @@ public class FakeStoreProductService implements ProductService{
     }
 
     @Override
-    public void deleteProduct(Long id) {
+    public boolean deleteProduct(Long id) {
         restTemplate.delete("https://fakestoreapi.com/products/" + id);
+        return true;
     }
 
     @Override
