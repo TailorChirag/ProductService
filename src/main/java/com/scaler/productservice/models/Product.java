@@ -1,5 +1,6 @@
 package com.scaler.productservice.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
@@ -13,6 +14,7 @@ public class Product extends BaseModel{
 
     private String title;
     private Double price;
+//    @JsonManagedReference
     @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
     private Category category;
     private String description;

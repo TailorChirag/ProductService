@@ -1,5 +1,7 @@
 package com.scaler.productservice.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import lombok.Getter;
@@ -12,6 +14,8 @@ import java.util.List;
 @Entity
 public class Category extends BaseModel{
 
+//    @JsonBackReference
+    @JsonIgnore
     @OneToMany(mappedBy = "category")
     private List<Product> products;
     private String name;
