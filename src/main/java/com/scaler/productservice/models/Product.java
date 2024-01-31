@@ -14,7 +14,6 @@ public class Product extends BaseModel{
 
     private String title;
     private Double price;
-//    @JsonManagedReference
     @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
     private Category category;
     private String description;

@@ -14,7 +14,7 @@ import java.util.List;
 @Entity
 public class Category extends BaseModel{
 
-//    @JsonBackReference
+
     @JsonIgnore
     @OneToMany(mappedBy = "category")
     private List<Product> products;
