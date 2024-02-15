@@ -33,13 +33,13 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Product>> getAllProducts(@RequestHeader("AuthenticationToken") String token) throws ProductNotFoundException {
+    public ResponseEntity<List<Product>> getAllProducts() throws ProductNotFoundException {
 
-        UserDto userDto = authenticationCommons.validateToken(token);
-
-        if(userDto == null){
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        }
+//        UserDto userDto = authenticationCommons.validateToken(token);
+//
+//        if(userDto == null){
+//            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+//        }
 
         ResponseEntity<List<Product>> response =
                 new ResponseEntity<>(productService.getAllProduct(), HttpStatus.OK);
