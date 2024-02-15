@@ -1,5 +1,7 @@
 package com.scaler.productservice.controllers;
 
+import com.scaler.productservice.commons.AuthenticationCommons;
+import com.scaler.productservice.dtos.UserDto;
 import com.scaler.productservice.exception.ProductNotFoundException;
 import com.scaler.productservice.models.Product;
 import com.scaler.productservice.repositories.ProductRepository;
@@ -19,17 +21,26 @@ public class ProductController {
 
     private ProductService productService;
     private ProductRepository productRepository;
+    private AuthenticationCommons authenticationCommons;
 
 
     @Autowired
     public ProductController(@Qualifier("selfProductService") ProductService productService,
-                             ProductRepository productRepository){
+                             ProductRepository productRepository,AuthenticationCommons authenticationCommons){
         this.productService = productService;
         this.productRepository = productRepository;
+        this.authenticationCommons = authenticationCommons;
     }
 
     @GetMapping
-    public ResponseEntity<List<Product>> getAllProducts() throws ProductNotFoundException {
+    public ResponseEntity<List<Product>> getAllProducts(@RequestHeader("AuthenticationToken") String token) throws ProductNotFoundException {
+
+        UserDto userDto = authenticationCommons.validateToken(token);
+
+        if(userDto == null){
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
         ResponseEntity<List<Product>> response =
                 new ResponseEntity<>(productService.getAllProduct(), HttpStatus.OK);
         return response;
