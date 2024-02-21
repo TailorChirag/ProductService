@@ -13,7 +13,8 @@ public class SecurityConfiguration {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/products/{id}").hasAuthority("SCOPE_INSTRUCTOR")
+                        .requestMatchers("/products").hasAuthority("SCOPE_ADMIN")
+                        .requestMatchers("/products/{id}").hasAuthority("SCOPE_STUDENT")
                         .anyRequest().permitAll()
                 )
                 .oauth2ResourceServer((oauth2) -> oauth2.jwt(Customizer.withDefaults()));
