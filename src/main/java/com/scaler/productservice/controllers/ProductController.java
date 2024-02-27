@@ -1,7 +1,6 @@
 package com.scaler.productservice.controllers;
 
 import com.scaler.productservice.commons.AuthenticationCommons;
-import com.scaler.productservice.dtos.UserDto;
 import com.scaler.productservice.exception.ProductNotFoundException;
 import com.scaler.productservice.models.Product;
 import com.scaler.productservice.repositories.ProductRepository;
@@ -25,7 +24,7 @@ public class ProductController {
 
 
     @Autowired
-    public ProductController(@Qualifier("selfProductService") ProductService productService,
+    public ProductController(@Qualifier("fakeStoreProductService") ProductService productService,
                              ProductRepository productRepository,AuthenticationCommons authenticationCommons){
         this.productService = productService;
         this.productRepository = productRepository;

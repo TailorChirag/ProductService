@@ -5,6 +5,8 @@ import com.scaler.productservice.exception.ProductNotFoundException;
 import com.scaler.productservice.models.Category;
 import com.scaler.productservice.models.Product;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
@@ -14,14 +16,17 @@ import java.util.ArrayList;
 
 import java.util.List;
 
+@Primary
 @Service("fakeStoreProductService")
 public class FakeStoreProductService implements ProductService{
 
     private RestTemplate restTemplate;
+    private RedisTemplate <String, Object> redisTemplate;
 
     @Autowired
-    public FakeStoreProductService(RestTemplate restTemplate) {
+    public FakeStoreProductService(RestTemplate restTemplate,RedisTemplate <String, Object> redisTemplate) {
         this.restTemplate = restTemplate;
+        this.redisTemplate = redisTemplate;
     }
 
     private Product convertFakeStoreProductToProduct(FakeStoreProductDto fakeStoreProduct) {
@@ -45,6 +50,11 @@ public class FakeStoreProductService implements ProductService{
 
 //        int a = 1 / 0;
 
+        Product p = (Product) redisTemplate.opsForHash().get("PRODUCTS","PRODUCT_" + id);
+
+        if (p != null){
+            return p;
+        }
         FakeStoreProductDto productDto = restTemplate.getForObject(
                 "https://fakestoreapi.com/products/" + id,
                 FakeStoreProductDto.class
@@ -56,7 +66,10 @@ public class FakeStoreProductService implements ProductService{
             );
 
         }
-        return convertFakeStoreProductToProduct(productDto);
+
+        Product p1 = convertFakeStoreProductToProduct(productDto);
+        redisTemplate.opsForHash().put("PRODUCTS","PRODUCT_"+id,p1);
+        return p1;
     }
 
     private FakeStoreProductDto convertProductToFakeStoreProduct(Product product) {
